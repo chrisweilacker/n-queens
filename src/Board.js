@@ -156,14 +156,51 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+
       return false; // fixme
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
+      var rows = this.rows();
+      for (var row = 0; row < rows.length; row++) {
+        for (var column = rows[row].length -1 ; column >= 0; column--) {
+          var hasPiece = false;
+          if (rows[row][column] === 1) {
+            hasPiece = true;
+          }
+          if (column !== rows[row].length) {
+            for (var nextDiagonal = (column + 1); nextDiagonal < rows[row].length; nextDiagonal++) {
+              var difference = (nextDiagonal - column);
+              if (rows[row+difference] !== undefined) {
+                if (rows[row + difference][nextDiagonal] === 1) {
+                  if (hasPiece === false) {
+                    hasPiece = true;
+                  } else {
+                    return true;
+                  }
+                }
+              }
+
+            }
+          }
+        }
+      }
+      // loop through each row
+      // loop through each column
+
+      // varialbe next index of diagnal loop by subtracting 1 from column going down to 0
+      // check the rows[row  +( nextDiagonal - column)][nextDiagonal] if it has flip has piece = true if its 1
+      // if this one find one return true;
+
+      //
       return false; // fixme
     },
-
+    // x x x x x
+    // x x x x x
+    // x x x x x
+    // x x x x x
+    // x x x x x
 
 
     // Minor Diagonals - go from top-right to bottom-left
@@ -171,11 +208,34 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
+
       return false; // fixme
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
+      var rows = this.rows();
+      for (var row = 0; row < rows.length; row++) {
+        for (var column = 0; column < rows[row].length; column++) {
+          var hasPiece = false;
+          if (rows[row][column] === 1) {
+            hasPiece = true;
+          }
+          for (var nextDiagonal = (column-1); nextDiagonal >= 0; nextDiagonal--) {
+            var difference = (column-nextDiagonal);
+            if (rows[row+difference] !== undefined) {
+              if (rows[row + difference][nextDiagonal] === 1) {
+                if (hasPiece === false) {
+                  hasPiece = true;
+                } else {
+                  return true;
+                }
+              }
+            }
+          }
+        }
+
+      }
       return false; // fixme
     }
 
