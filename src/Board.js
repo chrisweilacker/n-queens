@@ -62,7 +62,7 @@
     },
 
 
-/*
+    /*
          _             _     _
      ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
     / __| __/ _` | '__| __| | '_ \ / _ \ '__/ _ (_)
@@ -120,13 +120,13 @@
       var rows = this.rows();
       var columnHasPiece = new Array(rows.length);
       for (var i = 0; i < rows.length; i++) {
-          if (rows[i][colIndex] === 1) {
-            if (columnHasPiece[colIndex] === true) {
-              return true;
-            } else {
-              columnHasPiece[colIndex] = true;
-            }
+        if (rows[i][colIndex] === 1) {
+          if (columnHasPiece[colIndex] === true) {
+            return true;
+          } else {
+            columnHasPiece[colIndex] = true;
           }
+        }
       }
       return false; // fixme
     },
@@ -155,8 +155,27 @@
     // --------------------------------------------------------------
     //
     // test if a specific major diagonal on this board contains a conflict
-    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+    hasMajorDiagonalConflictAt: function(cIFR) { //majorDiagonalColumnIndexAtFirstRow
+      var rows = this.rows();
+      var hasPiece = false;
+      if (rows[0][cIFR] === 1) {
+        hasPiece = true;
+      }
+      if (cIFR !== rows[0].length) {
+        for (var nextDiagonal = (cIFR + 1); nextDiagonal < rows[0].length; nextDiagonal++) {
+          var difference = (nextDiagonal - cIFR);
+          if (rows[difference] !== undefined) {
+            if (rows[difference][nextDiagonal] === 1) {
+              if (hasPiece === false) {
+                hasPiece = true;
+              } else {
+                return true;
+              }
+            }
+          }
 
+        }
+      }
       return false; // fixme
     },
 
@@ -207,8 +226,24 @@
     // --------------------------------------------------------------
     //
     // test if a specific minor diagonal on this board contains a conflict
-    hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-
+    hasMinorDiagonalConflictAt: function(cIDFR) {  //minorDiagonalColumnIndexAtFirstRow
+      var rows = this.rows();
+      var hasPiece = false;
+      if (rows[0][cIDFR] === 1) {
+        hasPiece = true;
+      }
+      for (var nextDiagonal = (cIDFR-1); nextDiagonal >= 0; nextDiagonal--) {
+        var difference = (cIDFR-nextDiagonal);
+        if (rows[difference] !== undefined) {
+          if (rows[difference][nextDiagonal] === 1) {
+            if (hasPiece === false) {
+              hasPiece = true;
+            } else {
+              return true;
+            }
+          }
+        }
+      }
       return false; // fixme
     },
 
